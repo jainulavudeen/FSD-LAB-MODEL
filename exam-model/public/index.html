@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Food Ordering</title>
+  <style>
+    body { font-family: Arial; background: #f2f2f2; }
+    #box { width: 350px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; }
+    input, select, textarea { width: 100%; padding: 6px; margin: 5px 0 10px 0; box-sizing: border-box; }
+    button { padding: 8px 15px; }
+    .error { color: red; font-size: 13px; }
+    @media (max-width: 400px) { #box { width: 90%; } }
+  </style>
+</head>
+<body>
+  <div id="box">
+    <h2>Online Food Ordering Form</h2>
+    <form id="form">
+      Customer Name:
+      <input type="text" id="name">
+      Phone Number:
+      <input type="text" id="phone">
+      Food Item:
+      <select id="food">
+        <option value="">--Select--</option>
+        <option>Pizza</option>
+        <option>Burger</option>
+        <option>Biryani</option>
+        <option>Dosa</option>
+      </select>
+      Quantity:
+      <input type="number" id="qty" min="1">
+      Delivery Address:
+      <textarea id="address"></textarea>
+      Payment Method:
+      <select id="payment">
+        <option value="">--Select--</option>
+        <option>Cash</option>
+        <option>UPI</option>
+        <option>Card</option>
+      </select>
+      <p class="error" id="error"></p>
+      <button type="submit">Submit</button>
+      <button type="reset" onclick="document.getElementById('error').innerText=''">Reset</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    document.getElementById('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('name').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+      var food = document.getElementById('food').value;
+      var qty = document.getElementById('qty').value;
+      var address = document.getElementById('address').value.trim();
+      var payment = document.getElementById('payment').value;
+      var error = document.getElementById('error');
+
+      if (name == '' || phone == '' || food == '' || qty == '' || address == '' || payment == '') {
+        error.innerText = 'Please fill all the fields';
+        return;
+      }
+      if (phone.length != 10 || isNaN(phone)) {
+        error.innerText = 'Phone number must be 10 digits';
+        return;
+      }
+      if (qty < 1) {
+        error.innerText = 'Quantity must be at least 1';
+        return;
+      }
+
+      error.innerText = '';
+      document.getElementById('result').innerHTML =
+        '<h3 style="color:green">Order Confirmed!</h3>' +
+        'Name: ' + name + '<br>' +
+        'Phone: ' + phone + '<br>' +
+        'Food: ' + food + '<br>' +
+        'Quantity: ' + qty + '<br>' +
+        'Address: ' + address + '<br>' +
+        'Payment: ' + payment + '<br>';
+    });
+  </script>
+</body>
+</html>

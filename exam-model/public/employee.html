@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Employee</title>
+</head>
+<body>
+  <h2>Employee Management</h2>
+
+  <h3>Search Employee</h3>
+  <input type="number" id="sid" placeholder="employeeId">
+  <button onclick="search()">Search</button>
+
+  <h3>Update Salary</h3>
+  <input type="number" id="uid" placeholder="employeeId">
+  <input type="number" id="salary" placeholder="new salary">
+  <button onclick="update()">Update</button>
+
+  <pre id="out"></pre>
+
+  <script>
+    function search() {
+      fetch('/search/' + document.getElementById('sid').value)
+        .then(r => r.text())
+        .then(t => document.getElementById('out').innerText = t);
+    }
+    function update() {
+      fetch('/update/' + document.getElementById('uid').value, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ salary: Number(document.getElementById('salary').value) })
+      })
+        .then(r => r.text())
+        .then(t => document.getElementById('out').innerText = t);
+    }
+  </script>
+</body>
+</html>
